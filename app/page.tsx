@@ -4,6 +4,7 @@ import '@styles/home.css'
 import { BASE_URL } from "@utils/utils";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import Link from 'next/link';
 
 export interface homeDataType {
 	albums: Albums[];
@@ -67,10 +68,10 @@ export default function Home() {
 			<div className="homepage-albumlist">
 				{
 					trendingAlbumList?.map((trendingAlbum) => (
-						<a href={trendingAlbum.url} key={trendingAlbum.id} className="homepage-album">
+						<Link href={`/album/${trendingAlbum.id}`} key={trendingAlbum.id} className="homepage-album">
 							<img src={trendingAlbum.image[2].link} alt={trendingAlbum.name} height={200} width={200} className="homepage-album-image" />
 							<div className="homepage-album-title">{trendingAlbum.name}</div>
-						</a>
+						</Link>
 					))
 				}
 			</div>
@@ -82,6 +83,10 @@ export default function Home() {
 						<a href={chart.url} key={chart.id} className="homepage-chart">
 							<img src={chart.image[2].link} alt={chart.title} height={200} width={200} className="homepage-chart-image" />
 						</a>
+
+						// <Link href={`/album/${chart.id}`} key={chart.id} className="homepage-chart">
+						// 	<img src={chart.image[2].link} alt={chart.title} height={200} width={200} className="homepage-chart-image" />
+						// </Link>
 					))
 				}
 			</div>
