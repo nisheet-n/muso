@@ -1,6 +1,11 @@
+.homepage-albums,
+.homepage-charts {
+    margin: 2rem;
+}
+
 .homepage-album-heading,
 .homepage-chart-heading {
-    margin: 3rem 0 2rem 0;
+    margin: 0 0 2rem 0;
 }
 
 .homepage-albumlist,
@@ -16,7 +21,7 @@
     width: 15rem;
     min-height: 17.5rem;
     height: auto;
-    margin: 0.5rem;
+    margin: 0 2rem 2rem 0;
 }
 
 .homepage-album-image {

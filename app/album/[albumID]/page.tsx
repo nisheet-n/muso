@@ -2,39 +2,11 @@
 
 import '@styles/album.css'
 import { usePathname } from "next/navigation";
-import { ALBUM_URL } from "@utils/utils"
+import { ALBUM_URL } from "@utils/constants"
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-export interface Albums {
-    id: number;
-    image: Image[];
-    name: string;
-    primaryArtists: string;
-    releaseDate: string;
-    songCount: number;
-    songs: Songs[];
-    url: string;
-    year: number;
-}
-
-export interface Image {
-    link: string;
-    quality: string;
-}
-
-export interface Songs {
-    id: string;
-    name: string;
-    primaryArtists: string;
-    album: Albums[];
-    image: Image[];
-    duration: number;
-    language: string;
-    hasLyrics: boolean;
-    url: string;
-    year: number;
-}
+import { Albums, Songs, Image } from '@utils/utils';
+import Link from 'next/link';
 
 export default function getAlbumDetails() {
     const albumID = usePathname().split('/album/')[1];
@@ -76,7 +48,7 @@ export default function getAlbumDetails() {
                 albumSongs?.map((song) => (
                     <div key={song.id} className='song-list'>
                         <div key={song.id} className="song">
-                            <a href={song.url} className="song-title">{song.name}</a>
+                            <Link href={`/song/${song.id}`} className="song-title">{song.name}</Link>
                             <p className="song-artists">{song.primaryArtists}</p>
                             <p className="song-duration">{~~(song.duration / 60)}m {~~(song.duration % 60)}s</p>
                         </div>
