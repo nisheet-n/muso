@@ -33,12 +33,21 @@ export interface AlbumData {
     url: string;
     primaryArtistsId: string;
     primaryArtists: string;
-    image: { quality: string; link: string }[];
+    featuredArtists: any[];
+    artists: any[];
+    image: {
+        quality: string;
+        link: string;
+    }[];
     songs: {
         id: string;
         name: string;
         type: string;
-        album: { id: string; name: string; url: string };
+        album: {
+            id: string;
+            name: string;
+            url: string;
+        };
         year: string;
         releaseDate: string;
         duration: string;
@@ -53,7 +62,13 @@ export interface AlbumData {
         hasLyrics: string;
         url: string;
         copyright: string;
-        image: { quality: string; link: string }[];
-        downloadUrl: { quality: string; link: string }[];
+        image: {
+            quality: string;
+            link: string;
+        }[];
+        downloadUrl: {
+            quality: string;
+            link: string;
+        }[];
     }[];
 };

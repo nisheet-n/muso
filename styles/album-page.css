@@ -1,0 +1,110 @@
+.album-page {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+}
+
+.album-content {
+    padding: 0 0 0 3rem;
+    width: 100%;
+}
+
+.album-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50vh;
+    margin-bottom: 2rem;
+}
+
+.album-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.album-name {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.album-artists {
+    font-size: 1.5rem;
+    opacity: 75%;
+}
+
+.album-image {
+    height: 100%;
+    box-shadow: 0 0 1rem 0.25rem #fff;
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 25%, transparent 100%);
+}
+
+.song-list {
+    align-items: center;
+}
+
+.song-item {
+    background-color: var(--dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 10px;
+    opacity: 75%;
+}
+
+:hover.song-item {
+    outline: 3px solid var(--gray-dark);
+    opacity: 100%;
+}
+
+.song-play {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    fill: #8e5151;
+    color: #fff;
+}
+
+.song-data {
+    margin-left: 1.5rem;
+    margin-right: auto;
+    width: 100%;
+}
+
+.song-title {
+    font-weight: 500;
+}
+
+.song-artists {
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+    opacity: 75%;
+}
+
+.song-duration {
+    opacity: 75%;
+    font-weight: 500;
+}
+
+.album-info {
+    width: 25rem;
+    height: 75vh;
+    padding: 2rem;
+    margin-left: 2rem;
+    border-left: 3px solid rgba(255, 255, 255, 0.1);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+}
+
+.album-songCount {
+    font-size: 3rem;
+    margin-bottom: 3rem;
+}
+
+.album-link {
+    font-weight: bold;
+}

@@ -1,62 +1,101 @@
 "use client"
 
-import '@styles/album.css'
-import { usePathname } from "next/navigation";
+import '@styles/album-page.css'
 import { ALBUM_URL } from "@utils/constants"
+import { AlbumData } from '@utils/utils';
+import Loading from '@components/Loading';
+import Image from 'next/image';
+
 import axios from "axios";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Albums, Songs, Image } from '@utils/utils';
 import Link from 'next/link';
 
-export default function getAlbumDetails() {
+interface ApiResponse {
+    status: string;
+    message: string | null;
+    data: AlbumData;
+}
+
+export default function AlbumPage() {
     const albumID = usePathname().split('/album/')[1];
 
-    const [albumDetails, setAlbumDetails] = useState<Array<Albums>>([]);
-    const [albumImage, setAlbumImage] = useState<Array<Image>>([]);
-    const [albumSongs, setAlbumSongs] = useState<Array<Songs>>([]);
+    const [album, setAlbum] = useState<AlbumData>();
 
     useEffect(() => {
-        async function getAlbumDetails() {
-            const response = await axios.get(ALBUM_URL + albumID);
-            setAlbumDetails(response.data.data);
-            setAlbumImage(response.data.data.image[2]);
-            setAlbumSongs(response.data.data.songs);
-        }
-        getAlbumDetails();
-    }, [])
+        const fetchAlbum = async () => {
+            try {
+                const response = await axios.get<ApiResponse>(ALBUM_URL + albumID);
+                const { data } = response.data;
+                setAlbum(data);
+            }
 
-    console.log(albumDetails)
+            catch (error) {
+                console.error("Error fetching album data:", error);
+            }
+        };
+
+        fetchAlbum();
+    }, [albumID]);
+
+    if (!album) {
+        return <Loading />;
+    }
+
+    function formatDuration(duration: number | string): string {
+        const minutes = Math.floor(Number(duration) / 60);
+        const seconds = Math.floor(Number(duration) % 60);
+        const formattedMinutes = minutes.toString().padStart(2, '0');
+        const formattedSeconds = seconds.toString().padStart(2, '0');
+        return `${formattedMinutes}:${formattedSeconds}`;
+    }
 
     return (
         <div className="album-page">
-            <div className="album-header">
-                <div className='album-content'>
-                    <p className='album-name'>{albumDetails.name}</p>
-                    <p className='album-artists'>Artists: <br /> {albumDetails.primaryArtists}</p>
-                    <p className='album-release-date'>{albumDetails.releaseDate}</p>
-                    <br />
-                    <div className='album-content-footer'>
-                        <p className='album-songCount'>Songs: {albumDetails.songCount}</p>
-                        <p className='album-released'>{albumDetails.year}</p>
+            <div className="album-content">
+                <div className="album-header">
+                    <div className="album-data">
+                        <h1 className="album-name">{album.name.replace(/&quot;/g, '"')}</h1>
+                        <p className="album-artists">{album.primaryArtists}</p>
                     </div>
+                    <img src={album.image[album.image.length - 1].link} alt={album.name} className="album-image" />
                 </div>
 
-                <img src={albumImage.link} alt={albumDetails.name} className="album-image" />
+                <div className="song-list">
+                    {album.songs.map((song) => (
+                        <div className="song-item" key={song.id}>
+                            <Image className='song-play'
+                                src="/icons/play-icon.svg"
+                                width={500}
+                                height={500}
+                                alt="Play/Pause"
+                            />
+                            <div className="song-data">
+                                <Link href={`/song/${song.id}`} key={song.id} className="song-title">{song.name}</Link>
+                                <p className="song-artists">{song.primaryArtists}</p>
+                            </div>
+                            <p className="song-duration">{formatDuration(song.duration)}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            {
-                albumSongs?.map((song) => (
-                    <div key={song.id} className='song-list'>
-                        <div key={song.id} className="song">
-                            <Link href={`/song/${song.id}`} className="song-title">{song.name}</Link>
-                            <p className="song-artists">{song.primaryArtists}</p>
-                            <p className="song-duration">{~~(song.duration / 60)}m {~~(song.duration % 60)}s</p>
-                        </div>
-                        <p className="song-language">{song.language}</p>
-                        <div className='song-lyrics'>{song.hasLyrics ? "Yes" : "No"}</div>
+            <div className="album-info">
+                {album.songCount && <p className="album-songCount">{album.songCount} songs</p>}
+                {album.releaseDate && <p className="album-release-date">Release Date: {album.releaseDate}</p>}
+                {album.featuredArtists && album.featuredArtists.length > 0 && (
+                    <div>
+                        <h3>Featured Artists:</h3>
+                        <ul>
+                            {album.featuredArtists.map((artist, index) => (
+                                <li key={index}>{artist}</li>
+                            ))}
+                        </ul>
                     </div>
-                ))
-            }
-        </div >
-    )
+                )}
+                {album.year && <p className="album-released">Year: {album.year}</p>}
+                {album.url && <a href={album.url} target='_blank' className='album-link'>Listen on JioSaavn</a>}
+            </div>
+        </div>
+    );
 }
