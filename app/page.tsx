@@ -2,34 +2,62 @@
 
 import '@styles/home.css'
 import { BASE_URL } from '@utils/constants';
-import Trending from '@components/Trending';
-import TopCharts from '@components/TopCharts';
-import { Albums, Charts } from '@utils/utils';
+import { Album, Chart, Playlist } from '@utils/utils';
+import Albums from '@components/Homepage/Albums';
+import Charts from '@components/Homepage/Charts';
+import Playlists from '@components/Homepage/Playlists';
+import Loading from '@components/Loading';
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+interface ApiResponse {
+	data: {
+		albums: Album[];
+		charts: Chart[];
+		playlists: Playlist[];
+	};
+}
+
 export default function Home() {
-	const [trendingAlbumList, setTrendingAlbumList] = useState<Array<Albums>>([]);
-	const [chartList, setChartList] = useState<Array<Charts>>([]);
+	const [albums, setAlbums] = useState<Album[]>([]);
+	const [charts, setCharts] = useState<Chart[]>([]);
+	const [playlists, setPlaylists] = useState<Playlist[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		async function getAnime() {
-			const response = await axios.get(BASE_URL);
-			setChartList(response.data.data.charts);
-			setTrendingAlbumList(response.data.data.trending.albums);
-		}
-		getAnime();
-	}, [])
+		const fetchData = async () => {
+			try {
+				const response = await axios.get<ApiResponse>(BASE_URL);
+
+				const { albums, charts, playlists } = response.data.data;
+
+				setAlbums(albums);
+				setCharts(charts);
+				setPlaylists(playlists);
+				setIsLoading(false);
+			}
+
+			catch (error) {
+				console.error('Error fetching data:', error);
+				setIsLoading(false);
+			}
+		};
+
+		fetchData();
+	}, []);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
-		<div className="homepage">
-			<Trending
-				trendingAlbumList={trendingAlbumList}
-			/>
+		<div className='homepage'>
+			<Albums albums={albums} />
 
-			<TopCharts
-				chartList={chartList}
-			/>
-		</div >
-	)
+			<Charts charts={charts} />
+
+			<Playlists playlists={playlists} />
+		</div>
+	);
 }

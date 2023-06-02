@@ -1,0 +1,30 @@
+.playlist-container {
+    margin-top: 2rem;
+}
+
+.charts-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.playlist-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20rem;
+    height: 20rem;
+}
+
+
+.playlist-card img {
+    -webkit-transition: .25s all;
+    -moz-transition: .25s all;
+    -ms-transition: .25s all;
+    -o-transition: .25s all;
+    transition: .25s all;
+    width: 90%;
+}
+
+:hover.playlist-card img {
+    width: 100%;
+}

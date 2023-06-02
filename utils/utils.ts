@@ -1,55 +1,59 @@
-export interface homeDataType {
-    albums: Albums[];
-    charts: Charts[];
-    trending: Trending[];
-}
-
-export interface Albums {
-    id: number;
-    image: Image[];
+export interface Album {
+    id: string;
     name: string;
-    url: string;
-}
-
-export interface Charts {
-    id: number;
     image: Image[];
-    title: string;
     url: string;
 }
 
-export interface Trending {
-    albums: Albums[];
-    songs: Songs[];
+export interface Chart {
+    id: string;
+    title: string;
+    image: Image[];
+    url: string;
+}
+
+export interface Playlist {
+    id: string;
+    title: string;
+    image: Image[];
+    url: string;
 }
 
 export interface Image {
-    link: string;
     quality: string;
+    link: string;
 }
 
-
-export interface Albums {
-    id: number;
-    image: Image[];
-    name: string;
-    primaryArtists: string;
-    releaseDate: string;
-    songCount: number;
-    songs: Songs[];
-    url: string;
-    year: number;
-}
-
-export interface Songs {
+export interface AlbumData {
     id: string;
     name: string;
-    primaryArtists: string;
-    album: Albums[];
-    image: Image[];
-    duration: number;
-    language: string;
-    hasLyrics: boolean;
+    year: string;
+    releaseDate: string;
+    songCount: string;
     url: string;
-    year: number;
-}
+    primaryArtistsId: string;
+    primaryArtists: string;
+    image: { quality: string; link: string }[];
+    songs: {
+        id: string;
+        name: string;
+        type: string;
+        album: { id: string; name: string; url: string };
+        year: string;
+        releaseDate: string;
+        duration: string;
+        label: string;
+        primaryArtists: string;
+        primaryArtistsId: string;
+        featuredArtists: string;
+        featuredArtistsId: string;
+        explicitContent: number;
+        playCount: string;
+        language: string;
+        hasLyrics: string;
+        url: string;
+        copyright: string;
+        image: { quality: string; link: string }[];
+        downloadUrl: { quality: string; link: string }[];
+    }[];
+};
