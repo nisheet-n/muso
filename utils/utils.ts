@@ -24,6 +24,36 @@ export interface Image {
     link: string;
 }
 
+export interface SongData {
+    id: string;
+    name: string;
+    type: string;
+    album: {
+        id: string;
+        name: string;
+        url: string;
+    };
+    year: string;
+    releaseDate: string;
+    duration: string;
+    label: string;
+    primaryArtists: string;
+    primaryArtistsId: string;
+    featuredArtists: string;
+    featuredArtistsId: string;
+    explicitContent: number;
+    playCount: string;
+    language: string;
+    hasLyrics: string;
+    url: string;
+    copyright: string;
+    image: Image[];
+    downloadUrl: {
+        quality: string;
+        link: string;
+    }[];
+}
+
 export interface AlbumData {
     id: string;
     name: string;
@@ -35,10 +65,7 @@ export interface AlbumData {
     primaryArtists: string;
     featuredArtists: any[];
     artists: any[];
-    image: {
-        quality: string;
-        link: string;
-    }[];
+    image: Image[];
     songs: {
         id: string;
         name: string;
@@ -62,10 +89,7 @@ export interface AlbumData {
         hasLyrics: string;
         url: string;
         copyright: string;
-        image: {
-            quality: string;
-            link: string;
-        }[];
+        image: Image[];
         downloadUrl: {
             quality: string;
             link: string;
