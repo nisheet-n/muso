@@ -6,25 +6,27 @@ import Loading from '@components/Loading';
 
 import { usePathname } from "next/navigation";
 import axios from "axios";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 interface ArtistData {
-	id: string;
-	name: string;
-	url: string;
-	image: { quality: string; link: string }[];
-	followerCount: string;
-	fanCount: string;
-	isVerified: boolean;
-	dominantLanguage: string;
-	dominantType: string;
-	bio: string[];
-	dob: string;
-	fb: string;
-	twitter: string;
-	wiki: string;
-	availableLanguages: string[];
-	isRadioPresent: boolean;
+	data: {
+		id: string;
+		name: string;
+		url: string;
+		image: { quality: string; link: string }[];
+		followerCount: string;
+		fanCount: string;
+		isVerified: boolean;
+		dominantLanguage: string;
+		dominantType: string;
+		bio: string[];
+		dob: string;
+		fb: string;
+		twitter: string;
+		wiki: string;
+		availableLanguages: string[];
+		isRadioPresent: boolean;
+	}
 }
 
 export default function ArtistPage() {
@@ -36,7 +38,7 @@ export default function ArtistPage() {
 		const fetchArtist = async () => {
 			try {
 				const response = await axios.get<ArtistData>(ARTIST_URL + artistID);
-				setArtist(response.data.data);
+				setArtist(response.data);
 			}
 			catch (error) {
 				console.error('Error fetching artist:', error);
@@ -66,7 +68,7 @@ export default function ArtistPage() {
 		wiki,
 		availableLanguages,
 		isRadioPresent,
-	} = artist;
+	} = artist.data;
 
 	return (
 		<div className="artist-page">
