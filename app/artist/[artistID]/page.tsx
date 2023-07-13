@@ -2,13 +2,11 @@
 
 import '@styles/artist-page.css'
 import { ARTIST_URL } from '@utils/constants';
-import { Songs, Image } from "@utils/utils"
 import Loading from '@components/Loading';
 
 import { usePathname } from "next/navigation";
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
-import Link from 'next/link';
 
 interface ArtistData {
 	id: string;
